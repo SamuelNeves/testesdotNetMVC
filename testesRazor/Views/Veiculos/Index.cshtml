@@ -12,78 +12,66 @@
             event.stopPropagation();
             event.stopImmediatePropagation();
             var row = $(this).closest("tr");
-            $("td", row).each(function () {
-                if ($(this).find("input").length > 0) {
-                    $(this).find("input").show();
-                    $(this).find("span").hide();
-                }
-            });
             exibirInputs(row);
-
-           
+            exibirBotoesAtualizaCancela(row);
         });
 
          $(".Cancel").on('click', function (event) {
             event.stopPropagation();
             event.stopImmediatePropagation();
             var row = $(this).closest("tr");
-            $("td", row).each(function () {
-                if ($(this).find("input").length > 0) {
-                    $(this).find("input").hide();
-                    $(this).find("span").show();
-                }
-            });
-            ocultarInputs(row)
-
-          alert("cancel");
+            ocultarInputs(row);
+            ocultarBotoesAtualizaCancela(row);
+            alert("cancel");
          })
 
            $(".Update").on('click', function (event) {
             event.stopPropagation();
             event.stopImmediatePropagation();
             var row = $(this).closest("tr");
-            $("td", row).each(function () {
-                if ($(this).find("input").length > 0) {
-                    $(this).find("input").hide();
-                    $(this).find("span").show();
-                }
-            });
-            row.find(".Update").hide();
-            row.find(".Cancel").hide();
-            row.find(".Delete").show();
-            row.find(".Edit").show();
-
-          alert("UPDATE");
+            ocultarInputs(row);
+            ocultarBotoesAtualizaCancela(row);
+            alert("UPDATE");
            })
 
          $(".Delete").on('click', function (event) {
             event.stopPropagation();
             event.stopImmediatePropagation();
             var row = $(this).closest("tr");
-            $("td", row).each(function () {
-                if ($(this).find("input").length > 0) {
-                    $(this).find("input").hide();
-                    $(this).find("span").show();
-                }
-            });
-
-             ocultarInputs(row);
+            ocultarBotoesAtualizaCancela(row);
 
           alert("Delete");
          })
 
-        function exibirInputs(row) {
+        function exibirBotoesAtualizaCancela(row) {
             row.find(".Update").show();
             row.find(".Cancel").show();
             row.find(".Delete").hide();
             row.find(".Edit").hide();
         }
-        function ocultarInputs(row) {
+        function ocultarBotoesAtualizaCancela(row) {
 
             row.find(".Update").hide();
             row.find(".Cancel").hide();
             row.find(".Delete").show();
             row.find(".Edit").show();
+        }
+
+        function exibirInputs(row) {
+            $("td", row).each(function () {
+            if ($(this).find("input").length > 0) {
+                $(this).find("input").hide();
+                $(this).find("span").show();
+            }
+             });
+        }
+        function ocultarInputs(row) {
+               $("td", row).each(function () {
+                if ($(this).find("input").length > 0) {
+                    $(this).find("input").hide();
+                    $(this).find("span").show();
+                }
+            });
         }
     });
     
