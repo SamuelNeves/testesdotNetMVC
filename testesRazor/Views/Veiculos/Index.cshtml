@@ -1,0 +1,165 @@
+﻿@using testesRazor.Models
+@model IEnumerable<VeiculosModel>
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<script>
+    $(document).ready(function () {
+
+        $(".Edit").on('click', function (event) {
+            event.stopPropagation();
+            event.stopImmediatePropagation();
+            var row = $(this).closest("tr");
+            $("td", row).each(function () {
+                if ($(this).find("input").length > 0) {
+                    $(this).find("input").show();
+                    $(this).find("span").hide();
+                }
+            });
+            exibirInputs(row);
+
+           
+        });
+
+         $(".Cancel").on('click', function (event) {
+            event.stopPropagation();
+            event.stopImmediatePropagation();
+            var row = $(this).closest("tr");
+            $("td", row).each(function () {
+                if ($(this).find("input").length > 0) {
+                    $(this).find("input").hide();
+                    $(this).find("span").show();
+                }
+            });
+            ocultarInputs(row)
+
+          alert("cancel");
+         })
+
+           $(".Update").on('click', function (event) {
+            event.stopPropagation();
+            event.stopImmediatePropagation();
+            var row = $(this).closest("tr");
+            $("td", row).each(function () {
+                if ($(this).find("input").length > 0) {
+                    $(this).find("input").hide();
+                    $(this).find("span").show();
+                }
+            });
+            row.find(".Update").hide();
+            row.find(".Cancel").hide();
+            row.find(".Delete").show();
+            row.find(".Edit").show();
+
+          alert("UPDATE");
+           })
+
+         $(".Delete").on('click', function (event) {
+            event.stopPropagation();
+            event.stopImmediatePropagation();
+            var row = $(this).closest("tr");
+            $("td", row).each(function () {
+                if ($(this).find("input").length > 0) {
+                    $(this).find("input").hide();
+                    $(this).find("span").show();
+                }
+            });
+
+             ocultarInputs(row);
+
+          alert("Delete");
+         })
+
+        function exibirInputs(row) {
+            row.find(".Update").show();
+            row.find(".Cancel").show();
+            row.find(".Delete").hide();
+            row.find(".Edit").hide();
+        }
+        function ocultarInputs(row) {
+
+            row.find(".Update").hide();
+            row.find(".Cancel").hide();
+            row.find(".Delete").show();
+            row.find(".Edit").show();
+        }
+    });
+    
+       
+     $.ajax({
+                method: "POST",
+                url: "https://localhost:44381/Veiculos/Edit/" + row.val(),
+                data: { id: id }
+            }).done(function (msg) {
+                //alert(JSON.stringify(msg));
+            })
+
+    function deleteVehicle(id) {
+        alert("delete" + id)
+        $.ajax({
+            method: "POST",
+            url: "https://localhost:44381/Veiculos/Delete/" + id,
+            data: { id: id }
+        }).done(function (msg) {
+            alert(JSON.stringify(msg));
+        })
+    }
+</script>
+
+
+<div class="row">
+    <div id="man" class="col s12">
+        <div class="card material-table">
+            <div class="table-header">
+                <span class="table-title">Lista de Veiculos</span>
+                <div class="actions">
+                    <a href="#" class="modal-trigger waves-effect btn-flat nopadding"><i class="material-icons">person_add</i></a>
+                    <a href="#" class="search-toggle waves-effect btn-flat nopadding"><i class="material-icons">search</i></a>
+                </div>
+            </div>
+            <table id="datatable" class="mdl-data-table" style="width:100%">
+                <thead>
+                    <tr>
+                        <th>Tipo do Veiculo</th>
+                        <th>Placa</th>
+                        <th>
+                        </th>
+
+                    </tr>
+                </thead>
+
+                <tbody id="myTable">
+
+                    @foreach (var item in Model)
+                    {
+                        <tr id="row@{@item.Id}">
+                            <td>
+                                <span>@item.Id</span>
+                                <input type="text" value="@item.Id" style="display:none" />
+                            </td>
+
+                            <td>
+                                <span>@item.Plate</span>
+                                <input type="text" id="input-edit@{@item.Id}" value="@item.Plate" style="display:none" />
+                            </td>
+
+                            <td>
+                                <a value="@item.Id" id="edit@{@item.Id}" class="Edit waves-effect waves-light "><i class="material-icons">edit</i></a>
+                                <a class="Update" id="update@{@item.Id}" href="javascript:;" style="display:none">Update</a>
+                                <a class="Cancel" id="cancel@{@item.Id}" href="javascript:;" style="display:none">Cancel</a>
+                                <a value="@item.Id" id="delete@{@item.Id}" class="Delete waves-effect waves-light" onclick="deleteVehicle('@item.Id')"><i class="material-icons">delete</i></a>
+
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+
+
+        </div>
+    </div>
+</div>
+
+
